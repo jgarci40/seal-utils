@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.slf4j.Logger;
@@ -76,6 +78,15 @@ public class Utils {
 			tabsStr += "\t";
 		}
 		return tabsStr;
+	}
+	
+	public static Set<SootMethod> getApplicationMethods() {
+		Chain<SootClass> appClasses = Scene.v().getApplicationClasses();
+		Set<SootMethod> appMethods = new LinkedHashSet<SootMethod>();
+		for (SootClass clazz : appClasses) {
+			appMethods.addAll( clazz.getMethods() );
+		}
+		return appMethods;
 	}
 	
 	public static List<SootMethod> getMethodsInReverseTopologicalOrder() {
