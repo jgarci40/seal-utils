@@ -60,7 +60,7 @@ public class Utils {
 		SetupApplication app = new SetupApplication(Config.androidJAR,Config.apkFilePath);
 		try {
 			app.calculateSourcesSinksEntrypoints("SourcesAndSinks.txt");
-			Config.applySootOptions();
+			Config.applyWholeProgramSootOptions();
 			// entryPoints are the entryPoints required by Soot to calculate Graph - if there is no main method,
 			// we have to create a new main method and use it as entryPoint and store our real entryPoints
 			Scene.v().loadNecessaryClasses();
@@ -70,6 +70,11 @@ public class Utils {
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void setupAndroidAppForBody() {
+		Config.applyBodySootOptions();
+		Scene.v().loadNecessaryClasses();
 	}
 
 	public static String createTabsStr(int tabs) {
