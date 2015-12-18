@@ -58,6 +58,7 @@ public class Utils {
 	
 	public static void setupDummyMainMethod() {
 		SetupApplication app = new SetupApplication(Config.androidJAR,Config.apkFilePath);
+		Config.applyWholeProgramSootOptions();
 		try {
 			app.calculateSourcesSinksEntrypoints("SourcesAndSinks.txt");
 			Config.applyWholeProgramSootOptions();
