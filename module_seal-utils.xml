@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_seal-utils" default="compile.module.seal-utils">
+  <dirname property="module.seal-utils.basedir" file="${ant.file.module_seal-utils}"/>
+  
+  <property name="module.jdk.home.seal-utils" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.seal-utils" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.seal-utils" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.seal-utils" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="seal-utils.output.dir" value="${module.seal-utils.basedir}/bin"/>
+  <property name="seal-utils.testoutput.dir" value="${module.seal-utils.basedir}/bin"/>
+  
+  <path id="seal-utils.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="seal-utils.module.production.classpath">
+    <path refid="${module.jdk.classpath.seal-utils}"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-core-1.1.2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/AXMLPrinter2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/guava-18.0.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-classic-1.1.2.jar"/>
+    <path refid="library.slf4j-api-1.7.6.classpath"/>
+    <pathelement location="${soot.output.dir}"/>
+    <pathelement location="${heros.output.dir}"/>
+    <pathelement location="${basedir}/../heros/slf4j-api-1.7.5.jar"/>
+    <pathelement location="${basedir}/../heros/slf4j-simple-1.7.5.jar"/>
+    <pathelement location="${basedir}/../heros/guava-18.0.jar"/>
+    <pathelement location="${soot-infoflow-android.output.dir}"/>
+    <pathelement location="${soot-infoflow.output.dir}"/>
+  </path>
+  
+  <path id="seal-utils.runtime.production.module.classpath">
+    <pathelement location="${seal-utils.output.dir}"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-core-1.1.2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/AXMLPrinter2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/guava-18.0.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-classic-1.1.2.jar"/>
+    <path refid="library.slf4j-api-1.7.6.classpath"/>
+    <path refid="soot.runtime.production.module.classpath"/>
+    <path refid="soot-infoflow-android.runtime.production.module.classpath"/>
+    <path refid="soot-infoflow.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="seal-utils.module.classpath">
+    <pathelement location="${seal-utils.output.dir}"/>
+    <path refid="${module.jdk.classpath.seal-utils}"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-core-1.1.2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/AXMLPrinter2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/guava-18.0.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-classic-1.1.2.jar"/>
+    <path refid="library.slf4j-api-1.7.6.classpath"/>
+    <pathelement location="${soot.output.dir}"/>
+    <pathelement location="${heros.output.dir}"/>
+    <pathelement location="${basedir}/../heros/slf4j-api-1.7.5.jar"/>
+    <pathelement location="${basedir}/../heros/slf4j-simple-1.7.5.jar"/>
+    <pathelement location="${basedir}/../heros/guava-18.0.jar"/>
+    <pathelement location="${soot-infoflow-android.output.dir}"/>
+    <pathelement location="${soot-infoflow.output.dir}"/>
+  </path>
+  
+  <path id="seal-utils.runtime.module.classpath">
+    <pathelement location="${seal-utils.output.dir}"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-core-1.1.2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/AXMLPrinter2.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/guava-18.0.jar"/>
+    <pathelement location="${basedir}/../seal-utils/lib/logback-classic-1.1.2.jar"/>
+    <path refid="library.slf4j-api-1.7.6.classpath"/>
+    <path refid="soot.runtime.module.classpath"/>
+    <path refid="soot-infoflow-android.runtime.module.classpath"/>
+    <path refid="soot-infoflow.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.seal-utils">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.seal-utils">
+    <patternset refid="excluded.from.module.seal-utils"/>
+  </patternset>
+  
+  <path id="seal-utils.module.sourcepath">
+    <dirset dir="${module.seal-utils.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.seal-utils" depends="compile.module.seal-utils.production,compile.module.seal-utils.tests" description="Compile module seal-utils"/>
+  
+  <target name="compile.module.seal-utils.production" depends="register.custom.compilers,compile.module.soot,compile.module.soot-infoflow-android,compile.module.soot-infoflow" description="Compile module seal-utils; production classes">
+    <mkdir dir="${seal-utils.output.dir}"/>
+    <javac2 destdir="${seal-utils.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.seal-utils}/javac">
+      <compilerarg line="${compiler.args.seal-utils}"/>
+      <bootclasspath refid="seal-utils.module.bootclasspath"/>
+      <classpath refid="seal-utils.module.production.classpath"/>
+      <src refid="seal-utils.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.seal-utils"/>
+    </javac2>
+    
+    <copy todir="${seal-utils.output.dir}">
+      <fileset dir="${module.seal-utils.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.seal-utils.tests" depends="register.custom.compilers,compile.module.seal-utils.production" description="compile module seal-utils; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.seal-utils" description="cleanup module">
+    <delete dir="${seal-utils.output.dir}"/>
+    <delete dir="${seal-utils.testoutput.dir}"/>
+  </target>
+</project>
