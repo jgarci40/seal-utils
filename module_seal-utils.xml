@@ -29,6 +29,8 @@
     <pathelement location="${basedir}/../heros/guava-18.0.jar"/>
     <pathelement location="${soot-infoflow-android.output.dir}"/>
     <pathelement location="${soot-infoflow.output.dir}"/>
+    <pathelement location="${basedir}/../soot-infoflow/lib/junit.jar"/>
+    <pathelement location="${basedir}/../soot-infoflow/lib/org.hamcrest.core_1.3.0.jar"/>
   </path>
   
   <path id="seal-utils.runtime.production.module.classpath">
@@ -58,6 +60,8 @@
     <pathelement location="${basedir}/../heros/guava-18.0.jar"/>
     <pathelement location="${soot-infoflow-android.output.dir}"/>
     <pathelement location="${soot-infoflow.output.dir}"/>
+    <pathelement location="${basedir}/../soot-infoflow/lib/junit.jar"/>
+    <pathelement location="${basedir}/../soot-infoflow/lib/org.hamcrest.core_1.3.0.jar"/>
   </path>
   
   <path id="seal-utils.runtime.module.classpath">
@@ -90,15 +94,15 @@
   
   <target name="compile.module.seal-utils" depends="compile.module.seal-utils.production,compile.module.seal-utils.tests" description="Compile module seal-utils"/>
   
-  <target name="compile.module.seal-utils.production" depends="register.custom.compilers,compile.module.soot,compile.module.soot-infoflow-android,compile.module.soot-infoflow" description="Compile module seal-utils; production classes">
+  <target name="compile.module.seal-utils.production" depends="compile.module.soot,compile.module.soot-infoflow-android,compile.module.soot-infoflow" description="Compile module seal-utils; production classes">
     <mkdir dir="${seal-utils.output.dir}"/>
-    <javac2 destdir="${seal-utils.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.seal-utils}/javac">
+    <javac destdir="${seal-utils.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.seal-utils}/javac">
       <compilerarg line="${compiler.args.seal-utils}"/>
       <bootclasspath refid="seal-utils.module.bootclasspath"/>
       <classpath refid="seal-utils.module.production.classpath"/>
       <src refid="seal-utils.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.seal-utils"/>
-    </javac2>
+    </javac>
     
     <copy todir="${seal-utils.output.dir}">
       <fileset dir="${module.seal-utils.basedir}/src">
@@ -108,7 +112,7 @@
     </copy>
   </target>
   
-  <target name="compile.module.seal-utils.tests" depends="register.custom.compilers,compile.module.seal-utils.production" description="compile module seal-utils; test classes" unless="skip.tests"/>
+  <target name="compile.module.seal-utils.tests" depends="compile.module.seal-utils.production" description="compile module seal-utils; test classes" unless="skip.tests"/>
   
   <target name="clean.module.seal-utils" description="cleanup module">
     <delete dir="${seal-utils.output.dir}"/>
