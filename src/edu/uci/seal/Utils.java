@@ -208,6 +208,24 @@ public class Utils {
 	    Logger logger = LoggerFactory.getLogger(inClass);
 	    return logger;
 	}
+
+	public static Logger setupVerboseLogger(@SuppressWarnings("rawtypes") Class inClass, String apkName) {
+		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		JoranConfigurator configurator = new JoranConfigurator();
+		lc.reset();
+		lc.putProperty("toolName", inClass.getName());
+		lc.putProperty("apkName",apkName);
+		configurator.setContext(lc);
+		try {
+			configurator.doConfigure("logback-fileAppender-verbose.xml");
+		} catch (JoranException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Logger logger = LoggerFactory.getLogger(inClass);
+		return logger;
+	}
 	
 	public static void printTagsOfMethod(Logger logger, SootMethod method) {
 		for (Unit unit : method.getActiveBody().getUnits()) {
