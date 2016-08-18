@@ -2,9 +2,9 @@
 <project name="module_seal-utils" default="compile.module.seal-utils">
   <dirname property="module.seal-utils.basedir" file="${ant.file.module_seal-utils}"/>
   
-  <property name="module.jdk.home.seal-utils" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.seal-utils" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.seal-utils" value="${project.jdk.classpath}"/>
+  <property name="module.jdk.home.seal-utils" value="${jdk.home.1.80.0_102}"/>
+  <property name="module.jdk.bin.seal-utils" value="${jdk.bin.1.80.0_102}"/>
+  <property name="module.jdk.classpath.seal-utils" value="jdk.classpath.1.80.0_102"/>
   
   <property name="compiler.args.seal-utils" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
   
