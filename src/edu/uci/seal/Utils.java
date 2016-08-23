@@ -118,7 +118,9 @@ public class Utils {
 				}
 			}
 		}
-		return topologicalOrderMethods;
+
+		List<SootMethod> rtoMethods = Lists.reverse(topologicalOrderMethods);
+		return rtoMethods;
 	}
 	
 	public static boolean isApplicationMethod(SootMethod method) {
