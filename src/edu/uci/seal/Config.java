@@ -53,8 +53,8 @@ public class Config {
 		PhaseOptions.v().setPhaseOption("cg", "verbose:true");
 		Options.v().set_android_jars(System.getenv("ANDROID_HOME"));
 		Options.v().set_soot_classpath(
-				apkFilePath + File.pathSeparator + androidJAR + File.pathSeparator + "/home/joshua/android-sdks/extras/android/support/v7/appcompat/libs/android-support-v7-appcompat.jar" + File.pathSeparator
-						+ "/home/joshua/android-sdks/extras/android/support/v7/appcompat/libs/android-support-v4.jar");
+				apkFilePath + File.pathSeparator + androidJAR + File.pathSeparator + System.getenv("ANDROID_SDKS") + "/extras/android/support/v7/appcompat/libs/android-support-v7-appcompat.jar" + File.pathSeparator
+						+ System.getenv("ANDROID_SDKS") + "/extras/android/support/v7/appcompat/libs/android-support-v4.jar");
 		List<String> processDirs = new ArrayList<String>();
 		processDirs.add(apkFilePath);
 		Options.v().set_process_dir(processDirs);
