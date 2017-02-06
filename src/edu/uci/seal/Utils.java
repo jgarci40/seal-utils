@@ -1,11 +1,6 @@
 package edu.uci.seal;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.javatuples.Triplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xmlpull.v1.XmlPullParserException;
@@ -285,6 +281,44 @@ public class Utils {
 		}
 		return null;
 
+	}
+
+	public static void storeIntentControlledTargets(File apkFile, Logger logger, Set<Triplet<Unit, BytecodeOffsetTag, SootMethod>> targets) {
+		String targetsFilename = apkFile.getName() + "_ic_tgt_units.txt";
+		logger.debug("Saving intent-controlled targets to " + targetsFilename);
+
+		try {
+			PrintWriter writer = new PrintWriter(targetsFilename);
+			for (Triplet<Unit,BytecodeOffsetTag,SootMethod> target : targets) {
+				writer.write(target.getValue1() + "#" + target.getValue2() + "\n");
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void storeIntentControlledTargetsWithExcludedKeys(File apkFile,
+																	Logger logger,
+																	Set<Triplet<Unit, BytecodeOffsetTag, SootMethod>> targets,
+																	List<String> excludedKeys) {
+		String targetsFilename = apkFile.getName() + "_ic_tgt_units.txt";
+		logger.debug("Saving intent-controlled targets to " + targetsFilename);
+
+		try {
+			PrintWriter writer = new PrintWriter(targetsFilename);
+			if (excludedKeys.size() != targets.size()) {
+				throw new RuntimeException("excludedKeys and targets are not equal in size");
+			}
+			int i=0;
+			for (Triplet<Unit, BytecodeOffsetTag, SootMethod> target : targets) {
+				writer.write(target.getValue1() + "#" + target.getValue2() + "#" + excludedKeys.get(i) + "\n");
+				i++;
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
