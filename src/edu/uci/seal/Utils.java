@@ -301,8 +301,9 @@ public class Utils {
 
 	public static void storeIntentControlledTargetsWithSpecialKeys(File apkFile,
 																   Logger logger,
-																   Set<Quartet<Unit, BytecodeOffsetTag, SootMethod,String>> targets) {
-		String targetsFilename = apkFile.getName() + "_ic_tgt_units.txt";
+																   Set<Quartet<Unit, BytecodeOffsetTag, SootMethod,String>> targets,
+																   String abbrv) {
+		String targetsFilename = apkFile.getName() + "_" + abbrv + "_ic_tgt_units.txt";
 		logger.debug("Saving intent-controlled targets to " + targetsFilename);
 
 		try {
