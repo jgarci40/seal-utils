@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.javatuples.Quartet;
 import org.javatuples.Triplet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -298,21 +299,17 @@ public class Utils {
 		}
 	}
 
-	public static void storeIntentControlledTargetsWithExcludedKeys(File apkFile,
-																	Logger logger,
-																	Set<Triplet<Unit, BytecodeOffsetTag, SootMethod>> targets,
-																	List<String> excludedKeys) {
+	public static void storeIntentControlledTargetsWithSpecialKeys(File apkFile,
+																   Logger logger,
+																   Set<Quartet<Unit, BytecodeOffsetTag, SootMethod,String>> targets) {
 		String targetsFilename = apkFile.getName() + "_ic_tgt_units.txt";
 		logger.debug("Saving intent-controlled targets to " + targetsFilename);
 
 		try {
 			PrintWriter writer = new PrintWriter(targetsFilename);
-			if (excludedKeys.size() != targets.size()) {
-				throw new RuntimeException("excludedKeys and targets are not equal in size");
-			}
 			int i=0;
-			for (Triplet<Unit, BytecodeOffsetTag, SootMethod> target : targets) {
-				writer.write(target.getValue1() + "#" + target.getValue2() + "#" + excludedKeys.get(i) + "\n");
+			for (Quartet<Unit, BytecodeOffsetTag, SootMethod, String> target : targets) {
+				writer.write(target.getValue1() + "#" + target.getValue2() + "#" + target.getValue3() + "\n");
 				i++;
 			}
 			writer.close();
