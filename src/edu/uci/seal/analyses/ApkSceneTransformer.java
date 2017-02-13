@@ -10,7 +10,7 @@ import soot.options.Options;
 
 public class ApkSceneTransformer extends SceneTransformer {
 
-	private static final String shortAnalysisName = "apk";
+	protected static String shortAnalysisName = "apk";
 	
 	public ApkSceneTransformer(String apkFilePath) {
 		soot.G.reset();
